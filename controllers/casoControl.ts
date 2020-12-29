@@ -8,7 +8,7 @@ import * as objectSha from 'object-sha'
 
 let rsa  = new classRSA;
 let keyPair;
-execrsa()   //ejecuta el generateRandomKeys() al iniciarse el program para tener las claves para todo el rato
+//execrsa()   //ejecuta el generateRandomKeys() al iniciarse el program para tener las claves para todo el rato
 let pubKeyClientnon;  //necesito la clave pub del cliente de non repudiation
 let Pkp;
 let bodysendserver;
