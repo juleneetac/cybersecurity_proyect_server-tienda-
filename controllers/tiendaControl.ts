@@ -11,8 +11,6 @@ let rsa  = new classRSA;
 let keyPair;
 execrsa()   //ejecuta el generateRandomKeys() al iniciarse el program para tener las claves para todo el rato
 let pubKeyBanco;  //necesito la clave pub del cliente de non repudiation
-let verificame= [];//esto es la moneda(array de 1€)
-let verifiedm = [];//verificame verificado
 let cantidad; //esto es la cantidad de dinero(que sera igual al length del array)
     
 
@@ -32,17 +30,17 @@ async function pubKeybanco() {   //el server(banco) me pasa su pubKey para verif
 
 async function postpayverify(req, res){
     try {
-
-      verificame = req.body.verificame //esto es la moneda(array de 1€)
+      let verificame = req.body.verificame //esto es la moneda firmada(array de 1€)= [];
+      let verifiedm = [];//verificame verificado
       cantidad = req.body.cantidad  //esto es la cantidad de dinero(que sera igual al length del array)
-      console.log(cantidad)
+      console.log(verificame)
       let y = 0;
 
       while (y < verificame.length){
               verifiedm[y] = bc.bigintToText(pubKeyBanco.verify(bc.hexToBigint(verificame[y])))  //esto ,lo hara la tienda que es quien verifique la moneda
               y++;
       }
-      let resultado = await postbancverify(verifiedm,cantidad)
+      let resultado = await postbancverify(verifiedm,verificame,cantidad)
       console.log(resultado)
       if(resultado == "zi"){
           res.status(200).send({msg: "la moneda es valida"})
@@ -58,12 +56,13 @@ async function postpayverify(req, res){
 }
 
 
-async function postbancverify(verificame,cantidad):Promise<string>{
+async function postbancverify(verified,verificame,cantidad):Promise<string>{
   let resultado
   await axios
   .post('http://localhost:3000/banco/verificaridmoneda', {
     cantidad: cantidad,
-    verificame: verificame
+    verificame: verificame,
+    verified: verified
   })
   .then(res => {
     //console.log(`statusCode: ${res.statusCode.status}`)
