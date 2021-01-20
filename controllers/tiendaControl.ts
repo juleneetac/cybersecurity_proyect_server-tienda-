@@ -42,12 +42,16 @@ async function postpayverify(req, res){
       }
       let resultado = await postbancverify(verifiedm,verificame,cantidad)
       console.log(resultado)
-      if(resultado == "zi"){
-          res.status(200).send({msg: "la moneda es valida"})
+      if(resultado == "si"){
+          res.status(200).send({msg: "la moneda es valida", intpagar: verificame.length})
       }
-      else {
-          res.status(501).send({msg: "estafador"})
+      else if(resultado == "no") {
+          res.status(501).send({msg: "estafador, monedas no válidas"})
         }
+      else if (resultado == "error"){
+        res.status(502).send({msg: "bank error"})
+      }
+      
       }
       catch(err) {
         console.log(err)
@@ -67,12 +71,18 @@ async function postbancverify(verified,verificame,cantidad):Promise<string>{
   .then(res => {
     //console.log(`statusCode: ${res.statusCode.status}`)
     console.log(res.data)
-    resultado= "zi"
+    if(res.data.msg == "ok verificacion"){
+      
+      resultado= "si"
+    }
+    else{
+      resultado= "no"
+    }
     
   })
   .catch(error => {
     console.error(error.response)
-    resultado= "no"
+    resultado= "error"
     
   })
 return resultado
