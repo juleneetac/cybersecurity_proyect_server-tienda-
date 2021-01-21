@@ -11,8 +11,7 @@ export class RSA {
  bc = require('bigint-conversion');
  publicKey;
  privateKey;
-// publicKey = require("../rsa/publicKey");
-// privateKey = require("../rsa/privateKey");
+
 // Since we are working with BigInt values, subtract 1 as integer number is not valid, so we create a public constant
  _ONE = BigInt(1);
 // We need to generate the coprime "e" in modulus phi(n)
@@ -46,27 +45,3 @@ export class RSA {
     
     }
 }
-/* RSA.prototype.generateRandomKeys = async function (bitLength = 3072) {
-    let p, q, n, phi;
-
-    // First step is to generate the public modulus as n = p * q
-    do {
-        p = await bcu.prime(Math.floor(bitLength / 2) + 1);
-        q = await bcu.prime(Math.floor(bitLength / 2));
-        n = p * q;
-
-        // Second step is to compute Euler's totient function
-        phi = (p - _ONE) * (q - _ONE);
-
-
-    } while (q === p || bcu.bitLength(n) !== bitLength || !(bcu.gcd(_E, phi) === _ONE));
-
-    let d = await bcu.modInv(_E, phi);
-
-    let publicKey = new this.publicKey(_E, n);
-    console.log(publicKey)
-    let privateKey = new this.privateKey(d, publicKey);
-
-    return {publicKey: publicKey, privateKey: privateKey};
-};
- */

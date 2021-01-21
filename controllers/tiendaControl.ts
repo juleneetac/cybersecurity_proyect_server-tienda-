@@ -69,7 +69,6 @@ async function postbancverify(verified,verificame,cantidad):Promise<string>{
     verified: verified
   })
   .then(res => {
-    //console.log(`statusCode: ${res.statusCode.status}`)
     console.log(res.data)
     if(res.data.msg == "ok verificacion"){
       
@@ -90,7 +89,7 @@ return resultado
 
 
 }
-//toca hacer un post de este servidor(tienda) al servidor(banco) de la verificacion y la cantidad parab saber cuanto tenemos que ingresarle a la tienda
+// un post de este servidor(tienda) al servidor(banco) de la verificacion y la cantidad parab saber cuanto tenemos que ingresarle a la tienda
 
 
 module.exports = {postpayverify};
